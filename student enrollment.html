@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration Form</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        h1 {
+            text-align: center;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        input[type="text"],
+        input[type="email"],
+        input[type="url"],
+        input[type="radio"] {
+            margin: 10px;
+            padding: 5px;
+            width: 300px;
+        }
+        img {
+            max-width: 300px;
+            max-height: 300px;
+        }
+        .output-container {
+            max-width: 500px;
+            margin-top: 20px;
+            padding: 10px;
+            border: 1px solid #ccc;
+        }
+        .output-container p {
+            margin: 5px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Registration</h1>
+        <h2>Student Enrollment Form</h2>
+        <form id="registrationForm">
+            <label for="name">Name:</label>
+            <input type="text" id="name" required>
+            <label for="email">Email:</label>
+            <input type="email" id="email" required>
+            <label for="website">Website:</label>
+            <input type="url" id="website" required>
+            <label for="imageLink">Image Link:</label>
+            <input type="text" id="imageLink" required>
+            <label>Gender:</label>
+            <input type="radio" name="gender" id="male" value="Male"> Male
+            <input type="radio" name="gender" id="female" value="Female"> Female
+            <input type="radio" name="gender" id="other" value="Other"> Other
+            <label for="skills">Skills:</label>
+            <input type="text" id="skills" required>
+            <button type="button" onclick="displayData()">Submit</button>
+        </form>
+        <div class="output-container">
+            <div id="output"></div>
+        </div>
+    </div>
+
+    <script>
+        function displayData() {
+            const name = document.getElementById("name").value;
+            const email = document.getElementById("email").value;
+            const website = document.getElementById("website").value;
+            const imageLink = document.getElementById("imageLink").value;
+            const gender = document.querySelector('input[name="gender"]:checked').value;
+            const skills = document.getElementById("skills").value;
+
+            const output = document.getElementById("output");
+            output.innerHTML = `
+                <h3>Registration Details:</h3>
+                <p><strong>Name:</strong> ${name}</p>
+                <p><strong>Email:</strong> ${email}</p>
+                <p><strong>Website:</strong> ${website}</p>
+                <p><strong>Image Link:</strong></p>
+                <img src="${imageLink}" alt="User Image" style="max-width: 300px; max-height: 300px;">
+                <p><strong>Gender:</strong> ${gender}</p>
+                <p><strong>Skills:</strong> ${skills}</p>
+            `;
+        }
+    </script>
+</body>
+</html>
