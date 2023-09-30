@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>To-Do List</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #E7DED0;
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            text-align: center;
+            color: #82614A;
+            font-size: 140px;
+        }
+
+        .todo-container {
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        #taskInput {
+            text-align: center;
+            width: calc(35% - 20px); /* Decreased width */
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 20px;
+            font-size: 16px;
+        }
+
+        #addTask {
+            padding: 10px 20px;
+            background-color: #D0BCA0;
+            border: none;
+            color: white;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        #addTask:hover {
+            background-color: #82614A;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+            display: flex; /* Add flex display */
+            justify-content: center; /* Center the list horizontally */
+            flex-wrap: wrap; /* Allow items to wrap to the next row if needed */
+        }
+
+        li {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 5px;
+            border: 0px solid #ccc;
+            margin: 5px;
+            border-radius: 20px;
+            width: calc(35% - 20px); /* Match width to #taskInput */
+        }
+
+        .completed {
+            text-decoration: line-through;
+        }
+
+        /* Checkbox styles */
+        .checkbox {
+            margin-right: 10px;
+            appearance: none; /* Remove default checkbox appearance */
+            width: 20px; /* Set the size of the custom checkbox */
+            height: 20px;
+            background-color: #D0BCA0; /* Set the background color to pink */
+            border-radius: 50%; /* Make the checkbox round */
+            cursor: pointer;
+        }
+
+        /* Style for checked checkboxes */
+        .checkbox:checked {
+            background-color: #82614A; /* Change background color for checked checkboxes */
+        }
+
+        /* Style for the custom checkbox's checkmark */
+        .checkbox:checked::before {
+            content: "\2713"; /* Unicode checkmark character */
+            display: block;
+            color: WHITE;
+            text-align: center;
+            line-height: 20px; /* Center the checkmark vertically */
+        }
+
+        /* Delete button styles */
+        .delete-button {
+            background-color: #4F483F;
+            color: white;
+            border: none;
+            border-radius: 20px;
+            padding: 5px 10px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+       /* Hover effect on tasks */
+        li:hover {
+            background-color:RED;
+            transition: background-color 0.3s ease;
+        }
+    </style>
+</head>
+<body> 
+    <h1>To-Do List</h1>
+
+    <div class="todo-container">
+        <input type="text" id="taskInput" placeholder="Add a new task">
+        <button id="addTask">Add</button>
+    </div>
+    <ul id="taskList">
+        <!-- Tasks will be added here dynamically -->
+    </ul>
+
+    <script>
+        // Array to store the selected colors (pink, yellow, red)
+        const colors = ["#EFE7DA", "#E1DACA", "#C1B6A4"];
+        let colorIndex = 0;
+
+        // Function to generate a color from the array
+        function getRandomColor() {
+            const color = colors[colorIndex];
+            colorIndex = (colorIndex + 1) % colors.length;
+            return color;
+        }
+
+        // Function to add a new task
+        function addTask() {
+            const taskInput = document.getElementById("taskInput");
+            const taskText = taskInput.value.trim();
+
+            if (taskText === "") {
+                alert("Please enter a task.");
+                return;
+            }
+
+            // Create a new list item
+            const taskList = document.getElementById("taskList");
+            const listItem = document.createElement("li");
+            const randomColor = getRandomColor(); // Generate a color from the array
+            listItem.style.backgroundColor = randomColor; // Set the background color
+
+            listItem.innerHTML = `
+                <input type="checkbox" class="checkbox">
+                <span class="task-text">${taskText}</span>
+                <div class="delete-button">Delete</div>
+            `;
+
+            // Add the list item to the task list
+            taskList.appendChild(listItem);
+
+            // Clear the input field
+            taskInput.value = "";
+
+            // Attach change event listener to the checkbox
+            const checkbox = listItem.querySelector(".checkbox");
+
+            checkbox.addEventListener("change", function () {
+                const taskText = listItem.querySelector(".task-text");
+                taskText.classList.toggle("completed", checkbox.checked);
+            });
+
+            // Attach click event listener to the "Delete" button
+            const deleteButton = listItem.querySelector(".delete-button");
+
+            deleteButton.addEventListener("click", function () {
+                taskList.removeChild(listItem);
+            });
+        }
+
+        // Attach a click event listener to the "Add" button
+        const addButton = document.getElementById("addTask");
+        addButton.addEventListener("click", addTask);
+
+        // Attach a keypress event listener to the input field to allow adding tasks with Enter key
+        const taskInput = document.getElementById("taskInput");
+        taskInput.addEventListener("keypress", function (event) {
+            if (event.key === "Enter") {
+                addTask();
+            }
+        });
+    </script>
+</body>
+</html>
